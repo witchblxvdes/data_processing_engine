@@ -1,7 +1,18 @@
 """One-pass sales analytics using iterables rather than materialized records."""
 
+from typing import Iterable, TypedDict
 
-def count_sales(sales):
+class Sale(TypedDict):
+    """Represent a sales record with typed fields."""
+
+    id: int
+    product: str
+    category: str
+    quantity: int
+    price: float
+    status: str
+
+def count_sales(sales: Iterable[Sale]) -> int:
     """Return the number of records in sales."""
     total = 0
     for _sale in sales:
@@ -9,7 +20,7 @@ def count_sales(sales):
     return total
 
 
-def calculate_total_revenue(sales):
+def calculate_total_revenue(sales: Iterable[Sale]) -> float:
     """Return the total revenue across the supplied sales."""
     total_revenue = 0.0
     for sale in sales:
@@ -17,7 +28,7 @@ def calculate_total_revenue(sales):
     return total_revenue
 
 
-def calculate_average_check(sales):
+def calculate_average_check(sales: Iterable[Sale]) -> float:
     """Return revenue per sale, or zero when there are no sales."""
     total_sales = 0
     total_revenue = 0.0
@@ -29,7 +40,7 @@ def calculate_average_check(sales):
     return total_revenue / total_sales
 
 
-def get_most_popular_product(sales):
+def get_most_popular_product(sales: Iterable[Sale]) -> str | None:
     """Return the product with the greatest number of units sold, or None."""
     product_counts = {}
     for sale in sales:
@@ -40,7 +51,7 @@ def get_most_popular_product(sales):
     return max(product_counts, key=lambda product: product_counts[product])
 
 
-def get_most_profitable_category(sales):
+def get_most_profitable_category(sales: Iterable[Sale]) -> str | None:
     """Return the category with the greatest total revenue, or None."""
     category_revenue = {}
     for sale in sales:
@@ -52,7 +63,7 @@ def get_most_profitable_category(sales):
     return max(category_revenue, key=lambda category: category_revenue[category])
 
 
-def get_top_products(sales):
+def get_top_products(sales: Iterable[Sale]) -> list[tuple[int, float]]:
     """Return up to five (product, total revenue) pairs in descending order."""
     product_revenue = {}
     for sale in sales:
