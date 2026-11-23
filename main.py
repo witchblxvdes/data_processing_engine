@@ -6,6 +6,7 @@ The application processes data lazily rather than keeping all rows in memory.
 
 from itertools import islice
 from pathlib import Path
+from typing import Iterator
 
 from generators.sales_generator import (
     calculate_revenue,
@@ -24,10 +25,14 @@ from services.analytics import (
     get_top_products,
 )
 
-SALES_FILE = Path(__file__).resolve().parent / "data" / "sales.csv"
+Sale = dict[str, str | int | float]
+
+SALES_FILE: str = str(
+    Path(__file__).resolve().parent / "data" / "sales.csv"
+    )
 
 
-def completed_sales():
+def completed_sales() -> Iterator[Sale]:
     """Provide a fresh stream of completed sales for each calculation."""
     return filter_sales(read_sales(SALES_FILE), "completed")
 
