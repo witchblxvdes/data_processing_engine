@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.vscode/
+.idea/
+.pytest_cache/
+.coverage
+tests/
+generate_data.py
