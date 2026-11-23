@@ -27,9 +27,6 @@ data_processing_engine/
 ├── services/
 │   ├── __init__.py
 │   └── analytics.py
-├── tests/
-│   ├── __init__.py
-│   └── test_engine.py
 ├── main.py
 ├── .gitignore
 └── README.md
