@@ -1,9 +1,12 @@
 """Lazy CSV reading and sales-processing generators."""
 
 import csv
+from typing import Iterable, Iterator
+
+from services.analytics import Sale
 
 
-def read_sales(filename):
+def read_sales(filename: str) -> Iterator[Sale]:
     """Yield sales dictionaries from CSV, converting numeric fields.
 
     Args:
@@ -25,14 +28,17 @@ def read_sales(filename):
             }
 
 
-def filter_sales(sales, status):
+def filter_sales(
+                  sales: Iterable[Sale],
+                  status: str
+                  ) -> Iterator[Sale]:
     """Yield only sales whose status matches the requested status."""
     for sale in sales:
         if sale["status"] == status:
             yield sale
 
 
-def calculate_revenue(sales):
+def calculate_revenue(sales: Iterable[Sale]) -> Iterator[float]:
     """Yield the running revenue total after every sale."""
     total_revenue = 0.0
     for sale in sales:
@@ -40,7 +46,10 @@ def calculate_revenue(sales):
         yield total_revenue
 
 
-def generate_batches(sales, batch_size):
+def generate_batches(
+                      sales: Iterable[Sale],
+                      batch_size: int
+                      ) -> Iterator[list[Sale]]:
     """Yield consecutive lists of at most batch_size sales.
 
     Raises:
@@ -62,7 +71,7 @@ def generate_batches(sales, batch_size):
         yield batch
 
 
-def generate_top_products(sales):
+def generate_top_products(sales: Iterable[Sale]) -> Iterator[tuple[str, float]]:
     """Yield (product name, individual sale revenue) pairs for analysis."""
     for sale in sales:
         revenue = sale["quantity"] * sale["price"]
