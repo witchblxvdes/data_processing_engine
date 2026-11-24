@@ -17,6 +17,7 @@ from generators.sales_generator import (
 )
 from iterators.sales_iterator import SalesIterator
 from services.analytics import (
+    Sale,
     calculate_average_check,
     calculate_total_revenue,
     count_sales,
@@ -25,7 +26,6 @@ from services.analytics import (
     get_top_products,
 )
 
-Sale = dict[str, str | int | float]
 
 SALES_FILE: str = str(
     Path(__file__).resolve().parent / "data" / "sales.csv"
